@@ -1,11 +1,10 @@
 menu :-
-  writeln('-------------------------------- Controle de Animais ---------------------------
+  nl, writeln('-------------------------------- Controle de Animais ---------------------------
 Escolha uma opção
 1 - Cadastrar Animal
-2 - Atualizar Animal
-3 - Listar Animais
-4 - Buscar Animal
-5 - Sair').
+2 - Listar Animais
+3 - Buscar Animal
+4 - Sair').
 
 gerarBd([]).
 
@@ -14,53 +13,110 @@ recebeEntrada(Prompt, Entrada) :-
   write(': '),
   read(Entrada).
 
-insereFim(T, [H], L):-insere(H, [T], L). 
-insereFim(N, [H|T], L):-insereFim(N, T, X), insere(H, X, L).
+insere(X, L, [X|L]).
 
 cadastra(Bd) :-
-  recebeEntrada('Digite o ID do animal', Id),
-  recebeEntrada('Digite o tamanho do animal(P, M ou G)', Tamanho),
-  recebeEntrada('Digite o gênero do animal', Genero),
-  recebeEntrada('Digite a cor do animal', Cor),
-  recebeEntrada('Digite o tipo do animal', Tipo),
-  recebeEntrada('Digite o dono do animal', Dono),
-  recebeEntrada('Digite a observação do animal', Observacao),
-  insereFim([Id, Tamanho, Genero, Cor, Tipo, Dono, Observacao], Bd, Retorno),
+  recebeEntrada('Digite o ID do Animal', Id),
+  recebeEntrada('Digite o tamanho do Animal(P, M ou G)', Tamanho),
+  recebeEntrada('Digite o gênero do Animal', Genero),
+  recebeEntrada('Digite a cor do Animal', Cor),
+  recebeEntrada('Digite o tipo do Animal', Tipo),
+  recebeEntrada('Digite o dono do Animal', Dono),
+  recebeEntrada('Digite a observação do Animal', Observacao),
+  insere([Id, Tamanho, Genero, Cor, Tipo, Dono, Observacao], Bd, Retorno),
   inicio(Retorno).
 
 atualiza(Bd) :-
   listar(Bd),
-  receberEntrada('Digite o Indice do animal na Lista: ', Indice),
+  recebeEntrada('Digite o Indice do Elem na Lista: ', Indice),
   writeln('Escolha uma opção 
-1 - Atualizar tamanho
-2 - Atualizar Obs'),
-  receberEntrada('Digite a Opcao: ', Op),
-  atualizaBd(Bd, Op, IdProcurado).
+  1 - Atualizar tamanho
+  2 - Atualizar Obs'),
+  recebeEntrada('Digite a Opcao: ', Op),
+  atualizaBd(Bd, Op, Indice).
 
-atualizaBd(Bd, Op, IdProcurado) :-
-  Op =:= 1 -> setTamanho(Bd, IdProcurado);
-  Op =:= 2 -> setObs(Bd, IdProcurado).
+atualizaBd(Bd, Op, Indice) :-
+  Op =:= 1 -> setTamanho(Bd, Indice);
+  Op =:= 2 -> setObs(Bd, Indice).
 
-setTamanho(Bd) :-
-  recebeEntrada('Digite o novo tamanho do animal: ', NovoTamanho),
-  
+getInd(Elemento,Lista,Index) :- nth0(Index, Lista, Elemento).
 
-setObs(Bd, IdProcurado, Retorno):-
+setTamanho(Bd, Indice) :-
+  recebeEntrada('Digite o novo tamanho do Elem: ', NovoTamanho),
+  getInd(Elem, Bd, Indice),
+  getInd(Id, Elem, 0),
+  write
+  getInd(Genero, Elem, 2),
+  getInd(Cor, Elem, 3),
+  getInd(Tipo, Elem, 4),
+  getInd(Dono, Elem, 5),
+  getInd(Observacao, Elem, 6),  
 
-inicio() :-
+  insere([Id, NovoTamanho, Genero, Cor, Tipo, Dono, Observacao], Bd, Retorno),
+  inicio(Retorno). 
+
+  remove_index([],_,_,_).
+
+  remove_index([H|T],Index,[NH|NT],Cont) :-
+    Cont_N = Cont + 1,
+    (Cont + 1 == Index -> remove_index(T,Index,NT,Cont_N);
+    remove_index(T,Index,NH,Cont_N)).
+
+setObs(Bd, Indice):-
+ recebeEntrada('Digite a nova Observacao do Elem: ', NovaObsercacao),
+  getInd(Elem, Bd, Indice),
+  getInd(Id, Elem, 0),
+  getInd(Genero, Elem, 2),
+  getInd(Cor, Elem, 3),
+  getInd(Tipo, Elem, 4),
+  getInd(Dono, Elem, 5),
+  getInd(Tamanho, Elem, 1),
+  remove_index(Retorno, Indice, R,0),
+  insere([Id, Tamanho, Genero, Cor, Tipo, Dono, NovaObsercacao], Bd, Retorno),
+  inicio(R).
+
+listar(Bd) :-
+  writeln(Bd),
+  inicio(Bd).
+
+inicio(Bd) :-
+  menu(),
   recebeEntrada('Digite a Opcao', Opcao),
-  seleciona(Opcao).
+  seleciona(Opcao, Bd).
 
 seleciona(Opcao, Bd) :-
   Opcao =:= 1 -> cadastra(Bd);
-  Opcao =:= 2 -> atualiza(Bd);
-  Opcao =:= 3 -> listar(Bd);
-  Opcao =:= 4 -> busca(Bd);
-  Opcao =:= 5 -> sair().
+  Opcao =:= 2 -> listar(Bd);
+  Opcao =:= 3 -> busca(Bd);
+  Opcao =:= 4 -> halt(0). 
+
+busca(Bd) :-
+   recebeEntrada('Digite o Indice', Index),
+   nth0(Index, Bd, Elem),
+ 
+  getInd(Id, Elem, 0),
+  getInd(Tamanho, Elem, 1),
+  getInd(Genero, Elem, 2),
+  getInd(Cor, Elem, 3),
+  getInd(Tipo, Elem, 4),
+  getInd(Dono, Elem, 5),
+  getInd(Obs, Elem, 6),
+
+
+   nl,write('ID: '),write(Id),
+   write(', Tamanho: '),write(Tamanho),
+   write(', Genero: '),write(Genero),
+   write(',Cor: '),write(Cor),
+   write(',Tipo: '),write(Tipo),
+   write(', Dono: '),write(Dono),
+   write(', Observação: '),write(Obs),nl,
+   inicio(Bd).
+ 
 
 :- initialization(main).
 main :-
-  menu(),
-  gerarBd(Bd),
-  inicio(Bd).
+  shell('clear'),  
+  gerarBd(Bd), 
+  inicio(Bd),
+  halt(0).
   
