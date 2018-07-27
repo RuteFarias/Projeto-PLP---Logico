@@ -26,19 +26,6 @@ cadastra(Bd) :-
   insere([Id, Tamanho, Genero, Cor, Tipo, Dono, Observacao], Bd, Retorno),
   inicio(Retorno).
 
-atualiza(Bd) :-
-  listar(Bd),
-  recebeEntrada('Digite o Indice do Elem na Lista: ', Indice),
-  writeln('Escolha uma opção 
-  1 - Atualizar tamanho
-  2 - Atualizar Obs'),
-  recebeEntrada('Digite a Opcao: ', Op),
-  atualizaBd(Bd, Op, Indice).
-
-atualizaBd(Bd, Op, Indice) :-
-  Op =:= 1 -> setTamanho(Bd, Indice);
-  Op =:= 2 -> setObs(Bd, Indice).
-
 getInd(Elemento,Lista,Index) :- nth0(Index, Lista, Elemento).
 
   insere([Id, NovoTamanho, Genero, Cor, Tipo, Dono, Observacao], Bd, Retorno),
