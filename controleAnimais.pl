@@ -41,17 +41,6 @@ atualizaBd(Bd, Op, Indice) :-
 
 getInd(Elemento,Lista,Index) :- nth0(Index, Lista, Elemento).
 
-setTamanho(Bd, Indice) :-
-  recebeEntrada('Digite o novo tamanho do Elem: ', NovoTamanho),
-  getInd(Elem, Bd, Indice),
-  getInd(Id, Elem, 0),
-  write
-  getInd(Genero, Elem, 2),
-  getInd(Cor, Elem, 3),
-  getInd(Tipo, Elem, 4),
-  getInd(Dono, Elem, 5),
-  getInd(Observacao, Elem, 6),  
-
   insere([Id, NovoTamanho, Genero, Cor, Tipo, Dono, Observacao], Bd, Retorno),
   inicio(Retorno). 
 
@@ -62,26 +51,13 @@ setTamanho(Bd, Indice) :-
     (Cont + 1 == Index -> remove_index(T,Index,NT,Cont_N);
     remove_index(T,Index,NH,Cont_N)).
 
-setObs(Bd, Indice):-
- recebeEntrada('Digite a nova Observacao do Elem: ', NovaObsercacao),
-  getInd(Elem, Bd, Indice),
-  getInd(Id, Elem, 0),
-  getInd(Genero, Elem, 2),
-  getInd(Cor, Elem, 3),
-  getInd(Tipo, Elem, 4),
-  getInd(Dono, Elem, 5),
-  getInd(Tamanho, Elem, 1),
-  remove_index(Retorno, Indice, R,0),
-  insere([Id, Tamanho, Genero, Cor, Tipo, Dono, NovaObsercacao], Bd, Retorno),
-  inicio(R).
-
 listar(Bd) :-
   writeln(Bd),
   inicio(Bd).
 
 inicio(Bd) :-
   menu(),
-  recebeEntrada('Digite a Opcao', Opcao),
+  recebeEntrada('Digite a Opção', Opcao),
   seleciona(Opcao, Bd).
 
 seleciona(Opcao, Bd) :-
@@ -91,7 +67,7 @@ seleciona(Opcao, Bd) :-
   Opcao =:= 4 -> halt(0). 
 
 busca(Bd) :-
-   recebeEntrada('Digite o Indice', Index),
+   recebeEntrada('Digite o Índice', Index),
    nth0(Index, Bd, Elem),
  
   getInd(Id, Elem, 0),
@@ -106,8 +82,8 @@ busca(Bd) :-
    nl,write('ID: '),write(Id),
    write(', Tamanho: '),write(Tamanho),
    write(', Genero: '),write(Genero),
-   write(',Cor: '),write(Cor),
-   write(',Tipo: '),write(Tipo),
+   write(', Cor: '),write(Cor),
+   write(', Tipo: '),write(Tipo),
    write(', Dono: '),write(Dono),
    write(', Observação: '),write(Obs),nl,
    inicio(Bd).
