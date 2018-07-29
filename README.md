@@ -17,5 +17,4 @@
 # Observação:
  A entrada de dados no programa deve ser com letras minúsculas 
  e terminada com um ponto tanto para strings como para números. 
- Exemplos: "palavra."
-           "1."
+ Exemplos: "palavra.", "1."
